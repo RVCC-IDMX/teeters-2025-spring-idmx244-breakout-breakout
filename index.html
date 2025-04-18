@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/ball.png" type="image/png">
+  <title>Simple Breakout Game</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="game-container">
+    <h1>Breakout Game</h1>
+    <div class="canvas-container">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <div id="startScreen" class="screen">
+        <h2>Simple Breakout</h2>
+        <p>Use left and right arrow keys or mouse to move the paddle</p>
+        <button id="startButton">Start Game</button>
+      </div>
+      <div id="gameOverScreen" class="screen hidden">
+        <h2>Game Over</h2>
+        <p>Your score: <span id="finalScore">0</span></p>
+        <button id="restartButton">Play Again</button>
+      </div>
+      <div id="winScreen" class="screen hidden">
+        <h2>You Win!</h2>
+        <p>Your score: <span id="winScore">0</span></p>
+        <button id="winRestartButton">Play Again</button>
+      </div>
+    </div>
+    <div class="game-info">
+      <p>Score: <span id="score">0</span></p>
+      <p>Lives: <span id="lives">3</span></p>
+    </div>
+  </div>
+  <script src="js/main.js" type="module"></script>
+</body>
+
+</html>

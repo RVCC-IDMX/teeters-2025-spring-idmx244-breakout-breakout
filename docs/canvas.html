@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breakout Game: Canvas Basics</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .example-container {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .example-header {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .example-header h3 {
+      margin: 0;
+      color: #4caf50;
+    }
+
+    .example-content {
+      padding: 15px;
+    }
+
+    .canvas-example {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .code-and-canvas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .code-block {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .canvas-block {
+      flex: 0;
+      min-width: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      background-color: #fff;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .note {
+      background-color: #e1f5fe;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #03a9f4;
+    }
+
+    .code-output {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border: 1px dashed #ddd;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="game icon" class="logo-img">
+            <span>Breakout Game</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="classes.html" class="nav-link">ES6 Classes</a></li>
+          <li><a href="canvas.html" class="nav-link">Canvas Basics</a></li>
+          <li><a href="collision.html" class="nav-link">Collision Detection</a></li>
+          <li><a href="object-freeze.html" class="nav-link">Object.freeze()</a></li>
+          <li><a href="game-loop.html" class="nav-link">Game Loop</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>HTML5 Canvas Basics</h1>
+    <p>Learn how to use the HTML5 Canvas API for drawing and animation in games</p>
+  </div>
+
+  <div class="card">
+    <h2>Introduction to HTML5 Canvas</h2>
+    <p>The HTML5 Canvas element provides a drawing surface that can be used to render graphics, animations, and
+      interactive content. For our Breakout game, we'll use Canvas to draw all game elements (paddle, ball, bricks) and
+      create smooth animations.</p>
+
+    <p>Canvas works by providing a JavaScript API that allows you to draw various shapes, text, and images onto a
+      rectangular area. Unlike SVG, Canvas is raster-based (pixel-based) rather than vector-based, making it well-suited
+      for games and applications that require frequent redraws.</p>
+
+    <div class="note">
+      <p><strong>Canvas vs. DOM Manipulation:</strong> While you could create a game using DOM elements (divs, etc.),
+        Canvas provides better performance for games because:</p>
+      <ul>
+        <li>It's optimized for frequent drawing operations</li>
+        <li>It handles all visuals in a single element, reducing DOM overhead</li>
+        <li>It gives you pixel-level control over what's drawn</li>
+        <li>It's specifically designed for real-time graphics</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Setting Up a Canvas</h2>
+    <p>To use Canvas, you first need to add a <code>&lt;canvas&gt;</code> element to your HTML and then get a reference
+      to it in your JavaScript code:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Basic Canvas Setup</h3>
+      </div>
+      <div class="example-content">
+        <h4>HTML:</h4>
+        <pre><code>&lt;canvas id="gameCanvas" width="800" height="600"&gt;&lt;/canvas&gt;</code></pre>
+
+        <h4>JavaScript:</h4>
+        <pre><code>// Get a reference to the canvas element
+const canvas = document.getElementById('gameCanvas');
+
+// Get the drawing context (2d for 2D graphics)
+const ctx = canvas.getContext('2d');
+
+// Now you can use ctx to draw on the canvas</code></pre>
+
+        <div class="tip">
+          <p><strong>Canvas Dimensions:</strong> It's important to set the width and height attributes directly on the
+            canvas element. Using CSS to resize a canvas will scale the rendering, which can lead to blurry graphics.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Canvas Coordinate System</h2>
+    <p>The Canvas coordinate system starts at the top-left corner (0,0) and extends right and down. This is different
+      from the Cartesian coordinate system used in mathematics, where the origin is typically at the bottom-left.</p>
+
+    <div class="canvas-example">
+      <div class="code-and-canvas">
+        <div class="code-block">
+          <pre><code>// Draw coordinate axes
+ctx.beginPath();
+ctx.moveTo(0, 50);
+ctx.lineTo(100, 50);
+ctx.moveTo(50, 0);
+ctx.lineTo(50, 100);
+ctx.strokeStyle = '#000';
+ctx.stroke();
+
+// Draw a point at (0,0) - top left
+ctx.fillStyle = 'red';
+ctx.fillRect(0, 0, 3, 3);
+
+// Draw a point at (100,100) - bottom right
+ctx.fillStyle = 'blue';
+ctx.fillRect(100, 100, 3, 3);</code></pre>
+        </div>
+        <div class="canvas-block">
+          <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Define arrow marker for axes -->
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+              </marker>
+            </defs>
+
+            <!-- Draw x-axis arrow from (0,0) to (250,0) -->
+            <line x1="0" y1="0" x2="250" y2="0" stroke="black" stroke-width="2" marker-end="url(#arrow)" />
+            <!-- Draw y-axis arrow from (0,0) to (0,250) -->
+            <line x1="0" y1="0" x2="0" y2="250" stroke="black" stroke-width="2" marker-end="url(#arrow)" />
+
+            <!-- Label axes -->
+            <text x="260" y="5" font-size="12" fill="black">X</text>
+            <text x="5" y="260" font-size="12" fill="black">Y</text>
+
+            <!-- Point marker at (0,0) in red -->
+            <circle cx="0" cy="0" r="5" fill="red" />
+            <text x="8" y="15" font-size="12" fill="red">(0,0)</text>
+
+            <!-- Point marker at (100,100) in blue -->
+            <circle cx="100" cy="100" r="5" fill="blue" />
+            <text x="105" y="115" font-size="12" fill="blue">(100,100)</text>
+
+            <!-- Optional: Add grid or additional labels as needed -->
+          </svg>
+        </div>
+      </div>
+      <p>In the example above, you can see that the origin (0,0) is at the top-left corner, and values increase as you
+        move right (x-axis) and down (y-axis).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Basic Drawing Operations</h2>
+    <p>The Canvas API provides various methods for drawing shapes, text, and images. Here are the most common drawing
+      operations we'll use in our Breakout game:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Rectangles</h3>
+      </div>
+      <div class="example-content">
+        <p>Rectangles are the simplest shapes to draw on a canvas. You can draw filled rectangles, outlined rectangles,
+          or both:</p>
+
+        <div class="code-and-canvas">
+          <div class="code-block">
+            <pre><code>// Fill a rectangle (x, y, width, height)
+ctx.fillStyle = '#0095DD'; // Set fill color
+ctx.fillRect(25, 25, 100, 50);
+
+// Draw a rectangle outline
+ctx.strokeStyle = '#333333'; // Set outline color
+ctx.lineWidth = 2; // Set line width
+ctx.strokeRect(175, 25, 100, 50);
+
+// Clear a rectangular area from the blue reactangle
+ctx.clearRect(75, 45, 50, 10);</code></pre>
+          </div>
+          <div class="canvas-block">
+            <img src="./image-1.png" alt="Canvas rectangles example" width="200">
+          </div>
+        </div>
+
+        <p>In our game, we'll use rectangles for drawing the paddle and bricks.</p>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Circles and Arcs</h3>
+      </div>
+      <div class="example-content">
+        <p>To draw circles, we use the <code>arc</code> method. This requires using the path API:</p>
+
+        <div class="code-and-canvas">
+          <div class="code-block">
+            <pre><code>// Begin a new path
+ctx.beginPath();
+
+// Draw an arc/circle
+// arc(x, y, radius, startAngle, endAngle)
+ctx.arc(100, 75, 30, 0, Math.PI * 2);
+
+// Set fill color
+ctx.fillStyle = '#0095DD';
+
+// Fill the circle
+ctx.fill();
+
+// If you want an outline too:
+ctx.strokeStyle = '#333333';
+ctx.lineWidth = 2;
+ctx.stroke();</code></pre>
+          </div>
+          <div class="canvas-block">
+            <img src="image-2.png" alt="Canvas circles example">
+          </div>
+        </div>
+
+        <p>In our game, we'll use circles to draw the ball.</p>
+
+        <div class="note">
+          <p><strong>Note:</strong> The angle parameters in <code>arc()</code> are in radians, not degrees. To convert
+            degrees to radians, multiply by <code>Math.PI / 180</code>. A full circle is <code>2 * Math.PI</code>
+            radians.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Text</h3>
+      </div>
+      <div class="example-content">
+        <p>You can draw text on the canvas using the <code>fillText</code> and <code>strokeText</code> methods:</p>
+
+        <div class="code-and-canvas">
+          <div class="code-block">
+            <pre><code>// Set text font and style
+ctx.font = '24px Arial';
+ctx.fillStyle = '#0095DD';
+
+// Draw filled text
+ctx.fillText('Score: 100', 50, 50);
+
+// Draw outlined text
+ctx.strokeStyle = '#333333';
+ctx.lineWidth = 1;
+ctx.strokeText('Lives: 3', 200, 50);</code></pre>
+          </div>
+          <div class="canvas-block">
+            <img src="image-3.png" width="200" alt="Canvas text example">
+          </div>
+        </div>
+
+        <p>In our game, we might use text to display the score, lives, or debug information.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>The Path API</h2>
+    <p>For more complex shapes, you'll need to use the Canvas Path API. This allows you to connect points with lines and
+      curves to create custom shapes:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Creating Custom Shapes</h3>
+      </div>
+      <div class="example-content">
+        <div class="code-and-canvas">
+          <div class="code-block">
+            <pre><code>// Begin a new path
+ctx.beginPath();
+
+// Move to starting point
+ctx.moveTo(50, 50);
+
+// Create lines
+ctx.lineTo(150, 50);  // Right
+ctx.lineTo(100, 150); // Down and left
+ctx.lineTo(50, 50);   // Back to start
+
+// Close the path (optional)
+ctx.closePath();
+
+// Fill the shape
+ctx.fillStyle = '#0095DD';
+ctx.fill();
+
+// Add an outline if desired
+ctx.strokeStyle = '#333333';
+ctx.lineWidth = 2;
+ctx.stroke();</code></pre>
+          </div>
+          <div class="canvas-block">
+            <img src="image-4.png" alt="Canvas path example">
+          </div>
+        </div>
+
+        <div class="tip">
+          <p><strong>Path Methods Summary:</strong></p>
+          <ul>
+            <li><code>beginPath()</code>: Start a new path</li>
+            <li><code>moveTo(x, y)</code>: Move to a point without drawing</li>
+            <li><code>lineTo(x, y)</code>: Draw a line to a point</li>
+            <li><code>arc(x, y, radius, startAngle, endAngle)</code>: Draw an arc or circle</li>
+            <li><code>closePath()</code>: Close the path by connecting back to the start</li>
+            <li><code>fill()</code>: Fill the path with the current fillStyle</li>
+            <li><code>stroke()</code>: Outline the path with the current strokeStyle</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Clearing and Redrawing</h2>
+    <p>For animations and games, you need to clear the canvas and redraw all elements for each frame. This creates the
+      illusion of movement:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Animation Basics</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>function draw() {
+  // Clear the entire canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw game elements
+  drawPaddle();
+  drawBall();
+  drawBricks();
+
+  // Continue the animation loop
+  requestAnimationFrame(draw);
+}
+
+// Start the animation
+draw();</code></pre>
+
+        <p>The <code>requestAnimationFrame</code> method tells the browser to call the specified function before the
+          next repaint. This creates smooth animations that are optimized for the device's display capabilities.</p>
+
+        <div class="warning">
+          <p><strong>Important:</strong> Always clear the canvas before redrawing. If you don't, new drawings will
+            appear on top of old ones, creating a "trail" effect (which might be desired in some cases, but not for most
+            games).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Canvas in Our Breakout Game</h2>
+    <p>In our Breakout game, we use Canvas for all visual elements. Let's look at how we implement drawing for each game
+      component:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Drawing the Paddle</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Paddle class
+draw(ctx) {
+  ctx.fillStyle = '#0095DD';
+  ctx.fillRect(this.x, this.y, this.width, this.height);
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Drawing the Ball</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Ball class
+draw(ctx) {
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+  ctx.fillStyle = '#0095DD';
+  ctx.fill();
+  ctx.closePath();
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Drawing the Bricks</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Brick class
+draw(ctx) {
+  if (!this.broken) {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    // Add a border
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Main Game Loop Drawing</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Game class
+gameLoop() {
+  if (this.gameState !== GAME_STATES.PLAYING) return;
+
+  // Clear canvas
+  this.ctx.clearRect(0, 0, this.width, this.height);
+
+  // Update entities
+  this.paddle.update();
+  this.ball.update();
+
+  // Check for collisions
+  this.collisionManager.checkCollisions();
+
+  // Draw all game entities
+  this.paddle.draw(this.ctx);
+  this.ball.draw(this.ctx);
+
+  // Draw all non-broken bricks
+  this.bricks.forEach(brick =&gt; {
+    if (!brick.broken) {
+      brick.draw(this.ctx);
+    }
+  });
+
+  // Render debug info
+  this.ui.renderDebug(this.ctx, this.debugMessage);
+
+  // Continue the game loop
+  requestAnimationFrame(() =&gt; this.gameLoop());
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Canvas Performance Tips</h2>
+    <p>For optimal performance, especially in games that require smooth animation, consider these tips:</p>
+
+    <table>
+      <tr>
+        <th>Tip</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>Minimize state changes</td>
+        <td>Batch operations that use the same styles to reduce context state changes (e.g., draw all blue elements at
+          once).</td>
+      </tr>
+      <tr>
+        <td>Use requestAnimationFrame</td>
+        <td>This method is optimized for animations and automatically pauses when the tab is inactive.</td>
+      </tr>
+      <tr>
+        <td>Avoid unnecessary drawing</td>
+        <td>Only draw elements that have changed or are visible on screen.</td>
+      </tr>
+      <tr>
+        <td>Use appropriate drawing methods</td>
+        <td>fillRect is faster than using the path API for simple rectangles.</td>
+      </tr>
+      <tr>
+        <td>Consider using multiple canvases</td>
+        <td>For complex games, use separate canvases for layers that update at different rates (e.g., background,
+          gameplay, UI).</td>
+      </tr>
+      <tr>
+        <td>Be careful with transparency</td>
+        <td>Drawing with transparency (alpha &lt; 1) is more performance-intensive.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Canvas Transformations</h2>
+    <p>The Canvas API also includes methods for transforming the coordinate system, which can be useful for more
+      advanced game features:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Translation, Rotation, and Scaling</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// Save the current state
+ctx.save();
+
+// Translate (move) the origin
+ctx.translate(100, 100);
+
+// Rotate the coordinate system (in radians)
+ctx.rotate(Math.PI / 4); // 45 degrees
+
+// Scale the coordinate system
+ctx.scale(2, 1.5); // 2x width, 1.5x height
+
+// Draw a rectangle at the new transformed position
+ctx.fillStyle = 'red';
+ctx.fillRect(-25, -25, 50, 50);
+
+// Restore the original state
+ctx.restore();</code></pre>
+
+        <div class="tip">
+          <p><strong>Important:</strong> Always use <code>save()</code> and <code>restore()</code> when working with
+            transformations to prevent unintended effects on subsequent drawing operations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Handling Canvas Responsiveness</h2>
+    <p>To make your Canvas-based game responsive, you need to handle window resizing and adjust the gameplay
+      accordingly:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Responsive Canvas Setup</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In our Game class - called when window is resized
+updateCanvasScale() {
+  this.canvasScale = {
+    x: this.canvas.width / this.canvas.offsetWidth,
+    y: this.canvas.height / this.canvas.offsetHeight
+  };
+}
+
+// Add resize event listener
+window.addEventListener('resize', () =&gt; {
+  this.updateCanvasScale();
+});</code></pre>
+
+        <p>In our game, we keep the canvas's internal dimensions (800×600) constant, but we scale the input coordinates
+          to match the displayed size. This allows the game to look good on any screen while maintaining consistent
+          gameplay.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Canvas Exercise</h2>
+    <p>To practice your Canvas skills, try implementing this simple drawing function that creates a colorful brick
+      pattern:</p>
+
+    <pre><code>function drawBrickPattern(ctx, rows, columns, colors) {
+  const canvasWidth = ctx.canvas.width;
+  const canvasHeight = ctx.canvas.height;
+
+  const brickWidth = canvasWidth / columns;
+  const brickHeight = canvasHeight / rows;
+
+  for (let row = 0; row &lt; rows; row++) {
+    const color = colors[row % colors.length];
+
+    for (let col = 0; col &lt; columns; col++) {
+      const x = col * brickWidth;
+      const y = row * brickHeight;
+
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, brickWidth, brickHeight);
+
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x, y, brickWidth, brickHeight);
+    }
+  }
+}</code></pre>
+
+    <p>Use this function to create the brick layout for your Breakout game, modifying it as needed to match the
+      requirements in the assignment.</p>
+  </div>
+
+  <div class="footer">
+    <p>Breakout Game - A JavaScript Class Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>

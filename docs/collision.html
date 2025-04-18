@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breakout Game: Collision Detection</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .example-container {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .example-header {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .example-header h3 {
+      margin: 0;
+      color: #4caf50;
+    }
+
+    .example-content {
+      padding: 15px;
+    }
+
+    .collision-diagram {
+      margin: 20px auto;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      display: flex;
+      justify-content: center;
+      max-width: 600px;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .note {
+      background-color: #e1f5fe;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #03a9f4;
+    }
+
+    .math {
+      background-color: #f3e5f5;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #9c27b0;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="game icon" class="logo-img">
+            <span>Breakout Game</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="classes.html" class="nav-link">ES6 Classes</a></li>
+          <li><a href="canvas.html" class="nav-link">Canvas Basics</a></li>
+          <li><a href="collision.html" class="nav-link">Collision Detection</a></li>
+          <li><a href="object-freeze.html" class="nav-link">Object.freeze()</a></li>
+          <li><a href="game-loop.html" class="nav-link">Game Loop</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>Collision Detection in Games</h1>
+    <p>Learn how to implement collision detection techniques for your Breakout game</p>
+  </div>
+
+  <div class="card">
+    <h2>Introduction to Collision Detection</h2>
+    <p>Collision detection is a fundamental aspect of game development. It allows you to determine when two game objects
+      interact, enabling gameplay mechanics like bouncing balls, breaking bricks, and collecting items.</p>
+
+    <p>In our Breakout game, we need to detect and respond to several types of collisions:</p>
+    <ul>
+      <li>Ball colliding with walls</li>
+      <li>Ball colliding with the paddle</li>
+      <li>Ball colliding with bricks</li>
+    </ul>
+
+    <p>This tutorial will cover the different collision detection techniques we'll use in our game, with a focus on how
+      we structure the collision system with ES6 classes.</p>
+  </div>
+
+  <div class="card">
+    <h2>Collision Detection Approaches</h2>
+    <p>There are several approaches to collision detection in 2D games. We'll explore the ones most relevant to our
+      Breakout game:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Rectangle-Rectangle Collision</h3>
+      </div>
+      <div class="example-content">
+        <p>Detecting if two rectangles (like our paddle and bricks) overlap is straightforward and efficient. We check
+          if the edges of one rectangle cross the edges of another. Collision exists if overlapWidth &gt; 0 &&
+          overlapHeight &gt; 0.</p>
+
+        <div class="collision-diagram">
+          <img src="image-5.png" width="600" alt="Rectangle-Rectangle Collision">
+        </div>
+
+        <pre><code>function rectsCollide(rect1, rect2) {
+  return (
+    (rect1.x &lt; (rect2.x + rect2.width)) &&
+    ((rect1.x + rect1.width)&gt; rect2.x) &&
+    (rect1.y &lt; (rect2.y + rect2.height)) &&
+    ((rect1.y + rect1.height)&gt; rect2.y)
+  );
+}
+</code></pre>
+
+        <p>This method is known as the <strong>Axis-Aligned Bounding Box (AABB)</strong> collision detection. It works
+          perfectly for our paddle and bricks since they are axis-aligned rectangles.</p>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Circle-Rectangle Collision</h3>
+      </div>
+      <div class="example-content">
+        <p>For the ball (a circle) colliding with the paddle or bricks (rectangles), we need a different approach. The
+          most common method involves finding the closest point on the rectangle to the circle's center.</p>
+
+        <div class="collision-diagram">
+          <img src="image-6.png" width="600" alt="Circle-Rectangle Collision">
+        </div>
+
+        <pre><code>function circleRectCollide(circle, rect) {
+  // Find the closest point on the rectangle to the circle's center
+  const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.width));
+  const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
+
+  // Calculate the distance from the closest point to the circle's center
+  const distanceX = circle.x - closestX;
+  const distanceY = circle.y - closestY;
+  const distanceSquared = distanceX * distanceX + distanceY * distanceY;
+
+  // If the distance is less than the circle's radius, they collide
+  return distanceSquared &lt;= (circle.radius * circle.radius);
+}</code></pre>
+
+        <p>This method works for any circle and rectangle, regardless of their positions.</p>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Edge Detection for Wall Collisions</h3>
+      </div>
+      <div class="example-content">
+        <p>For detecting ball collisions with the edges of the game area (walls), we use a simpler approach: checking if
+          the ball's position plus its radius crosses the boundaries.</p>
+
+        <pre><code>function checkWallCollisions(ball, gameWidth, gameHeight) {
+  // Left or right wall collision
+  if (ball.x - ball.radius &lt; 0 || ball.x + ball.radius &gt; gameWidth) {
+    ball.dx = -ball.dx; // Reverse horizontal direction
+  }
+
+  // Top wall collision
+  if (ball.y - ball.radius &lt; 0) {
+    ball.dy = -ball.dy; // Reverse vertical direction
+  }
+
+  // Bottom "wall" (game over condition)
+  if (ball.y + ball.radius &gt; gameHeight) {
+    return true; // Ball is lost
+  }
+
+  return false;
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Collision Response</h2>
+    <p>Detecting collisions is only half the battle. You also need to respond appropriately to create realistic physics
+      and gameplay. In Breakout, our collision responses include:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Ball Bouncing Off Walls</h3>
+      </div>
+      <div class="example-content">
+        <p>When the ball hits a wall, we simply reverse its velocity component (dx or dy) perpendicular to the wall:</p>
+
+        <pre><code>// In the Ball class
+update() {
+  // Update position
+  this.x += this.dx;
+  this.y += this.dy;
+
+  // Wall collision: left or right
+  if (this.x + this.size &gt; this.game.width || this.x - this.size &lt; 0) {
+    this.dx = -this.dx; // Reverse horizontal direction
+  }
+
+  // Wall collision: top
+  if (this.y - this.size &lt; 0) {
+    this.dy = -this.dy; // Reverse vertical direction
+  }
+
+  // Bottom "wall" (ball lost)
+  if (this.y + this.size &gt; this.game.height) {
+    this.game.ballLost();
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Ball Bouncing Off the Paddle</h3>
+      </div>
+      <div class="example-content">
+        <p>For paddle collisions, we want to add a bit more complexity to make the gameplay interesting. The angle of
+          the ball's bounce should depend on where it hits the paddle:</p>
+
+        <div class="collision-diagram">
+          <img src="image-7.png" width="600" alt="Paddle collision response">
+        </div>
+
+        <pre><code>// In the CollisionManager class
+checkPaddleCollision() {
+  const ball = this.game.ball;
+  const paddle = this.game.paddle;
+
+  if (
+    ball.y + ball.size &gt; paddle.y &&
+    ball.y + ball.size &lt; paddle.y + paddle.height &&
+    ball.x &gt; paddle.x &&
+    ball.x &lt; paddle.x + paddle.width
+  ) {
+    // Reverse the vertical direction
+    ball.dy = -ball.dy;
+
+    // Calculate impact factor based on where the ball hit the paddle
+    // -1 for left edge, 0 for center, 1 for right edge
+    const impactFactor = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+
+    // Apply angle variation (maximum angle of about 60 degrees)
+    ball.dx = ball.speed * impactFactor * 1.5;
+
+    // Ensure minimum horizontal movement
+    if (Math.abs(ball.dx) &lt; 0.5) {
+      ball.dx = ball.dx &gt; 0 ? 0.5 : -0.5;
+    }
+
+    // Ensure the ball's overall speed remains consistent
+    const currentSpeed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
+    ball.dx = ball.dx / currentSpeed * ball.speed;
+    ball.dy = ball.dy / currentSpeed * ball.speed;
+  }
+}</code></pre>
+
+        <div class="tip">
+          <p><strong>Gameplay Tip:</strong> Varying the bounce angle based on where the ball hits the paddle gives the
+            player more control and makes the game more engaging. Hits near the center should bounce more vertically,
+            while hits near the edges should result in sharper angles.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Ball Breaking Bricks</h3>
+      </div>
+      <div class="example-content">
+        <p>When the ball collides with a brick, we need to:</p>
+        <ol>
+          <li>Mark the brick as broken</li>
+          <li>Award points to the player</li>
+          <li>Calculate the correct bounce direction</li>
+        </ol>
+
+        <pre><code>// In the CollisionManager class
+checkBrickCollisions() {
+  const ball = this.game.ball;
+
+  for (const brick of this.game.bricks) {
+    if (!brick.broken && ball.collidesWith(brick)) {
+      // Break the brick and award points
+      brick.break();
+      this.game.addScore(DEFAULTS.POINTS_PER_BRICK);
+
+      // Calculate bounce direction
+      this.calculateBounceDirection(ball, brick);
+
+      // Only handle one brick collision per frame
+      // (prevents multiple collisions in a single frame)
+      break;
+    }
+  }
+}
+
+calculateBounceDirection(ball, brick) {
+  // Calculate distances to each edge of the brick
+  const distBottom = Math.abs((brick.y + brick.height) - (ball.y - ball.size));
+  const distTop = Math.abs((brick.y) - (ball.y + ball.size));
+  const distRight = Math.abs((brick.x + brick.width) - (ball.x - ball.size));
+  const distLeft = Math.abs((brick.x) - (ball.x + ball.size));
+
+  // Find the smallest distance to determine which side was hit
+  const minDist = Math.min(distBottom, distTop, distRight, distLeft);
+
+  // Reverse the appropriate velocity component
+  if (minDist === distBottom || minDist === distTop) {
+    // Hit top or bottom - reverse vertical direction
+    ball.dy = -ball.dy;
+  } else {
+    // Hit left or right - reverse horizontal direction
+    ball.dx = -ball.dx;
+  }
+}</code></pre>
+
+        <div class="warning">
+          <p><strong>Collision Precision:</strong> The method above is a simplified approach that works well for
+            Breakout-style games. For more precise collision response, you might need to calculate the exact collision
+            point and normal vector, which is beyond the scope of this tutorial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>The CollisionManager Class</h2>
+    <p>In our Breakout game, we encapsulate all collision detection and response logic in a dedicated
+      <code>CollisionManager</code> class. This makes our code more organized and maintainable:
+    </p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Class Structure</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// collision.js
+import { DEFAULTS } from './constants.js';
+
+export class CollisionManager {
+  constructor(game) {
+    this.game = game;
+  }
+
+  // Main method called each frame
+  checkCollisions() {
+    if (!this.game.ball || !this.game.paddle) {
+      return;
+    }
+
+    this.checkPaddleCollision();
+    this.checkBrickCollisions();
+  }
+
+  checkPaddleCollision() {
+    // Paddle collision logic (shown earlier)
+  }
+
+  checkBrickCollisions() {
+    // Brick collision logic (shown earlier)
+  }
+
+  calculateBounceDirection(ball, brick) {
+    // Bounce direction calculation (shown earlier)
+  }
+}</code></pre>
+
+        <p>This class design allows us to:</p>
+        <ul>
+          <li>Keep all collision logic in one place</li>
+          <li>Separate concerns (collision handling vs. entity behavior)</li>
+          <li>Easily extend or modify collision detection without affecting other game components</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Collision Detection in the Game Loop</h2>
+    <p>To integrate collision detection into our game, we call the <code>checkCollisions</code> method in each frame of
+      our game loop:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Game Loop Integration</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Game class
+gameLoop() {
+  if (this.gameState !== GAME_STATES.PLAYING) return;
+
+  // Clear the canvas
+  this.ctx.clearRect(0, 0, this.width, this.height);
+
+  // Update entities
+  this.paddle.update();
+  this.ball.update(); // Wall collisions are handled here
+
+  // Check for other collisions
+  this.collisionManager.checkCollisions();
+
+  // Draw all game entities
+  this.paddle.draw(this.ctx);
+  this.ball.draw(this.ctx);
+
+  // Draw all non-broken bricks
+  this.bricks.forEach(brick =&gt; {
+    if (!brick.broken) {
+      brick.draw(this.ctx);
+    }
+  });
+
+  // Check for win
+  if (this.bricks.every(brick =&gt; brick.broken)) {
+    this.win();
+    return;
+  }
+
+  // Continue the game loop
+  requestAnimationFrame(() =&gt; this.gameLoop());
+}</code></pre>
+
+        <div class="note">
+          <p><strong>Note:</strong> The order of operations is important. We first update the positions of all entities,
+            then check for collisions, then render everything. This ensures that collision responses are reflected
+            immediately in the rendering.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Ball-Object Collision Helper</h2>
+    <p>To simplify our collision detection code, we add a helper method to the Ball class that checks if it collides
+      with any rectangular object:</p>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Ball.collidesWith Method</h3>
+      </div>
+      <div class="example-content">
+        <pre><code>// In the Ball class
+collidesWith(object) {
+  // Find the closest point on the rectangle to the ball's center
+  const closestX = Math.max(object.x, Math.min(this.x, object.x + object.width));
+  const closestY = Math.max(object.y, Math.min(this.y, object.y + object.height));
+
+  // Calculate the distance from the closest point to the ball's center
+  const distanceX = this.x - closestX;
+  const distanceY = this.y - closestY;
+  const distanceSquared = distanceX * distanceX + distanceY * distanceY;
+
+  // If the distance is less than the ball's radius, they collide
+  return distanceSquared &lt;= (this.size * this.size);
+}</code></pre>
+
+        <p>With this method, checking for collisions between the ball and any rectangular object (like paddles or
+          bricks) becomes much simpler:</p>
+
+        <pre><code>// In the Brick class check
+if (ball.collidesWith(brick)) {
+  // Handle collision...
+}
+
+// In the Paddle class check
+if (ball.collidesWith(paddle)) {
+  // Handle collision...
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Advanced Collision Techniques</h2>
+    <p>While our implementation covers the needs of a Breakout game, there are more advanced collision detection
+      techniques that you might encounter in other types of games:</p>
+
+    <div class="columns">
+      <div class="column">
+        <h3>Swept Collision Detection</h3>
+        <p>Instead of checking positions at discrete time steps, swept detection calculates the exact moment of
+          collision between moving objects. This is useful for fast-moving objects that might "tunnel" through thin
+          obstacles.</p>
+      </div>
+      <div class="column">
+        <h3>Spatial Partitioning</h3>
+        <p>For games with many objects, techniques like quadtrees or grid-based partitioning reduce the number of
+          collision checks by only testing objects that are close to each other.</p>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <h3>Physics Engines</h3>
+        <p>Libraries like Matter.js or Box2D provide sophisticated collision detection and response, including rotation,
+          friction, and restitution (bounciness).</p>
+      </div>
+      <div class="column">
+        <h3>Polygon Collision</h3>
+        <p>For complex shapes, the Separating Axis Theorem (SAT) can detect collisions between arbitrary convex
+          polygons.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Common Challenges and Solutions</h2>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>The "Tunneling" Problem</h3>
+      </div>
+      <div class="example-content">
+        <p>If a ball is moving very fast, it might "jump" over a thin object in a single frame, missing the collision:
+        </p>
+
+        <div class="collision-diagram">
+          <img src="image-8.png" width="600" alt="Tunneling problem diagram">
+        </div>
+
+        <p><strong>Solutions:</strong></p>
+        <ul>
+          <li>Limit the maximum speed of objects</li>
+          <li>Use smaller time steps for physics calculations</li>
+          <li>Implement swept collision detection</li>
+          <li>Increase the size of collision boundaries</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Corner Collision Ambiguity</h3>
+      </div>
+      <div class="example-content">
+        <p>When a ball hits exactly at the corner of a brick, it's not clear whether it should bounce horizontally,
+          vertically, or both:</p>
+
+        <div class="collision-diagram">
+          <img src="image-9.png" width="600" alt="Corner collision diagram">
+        </div>
+
+        <p><strong>Solutions:</strong></p>
+        <ul>
+          <li>Calculate the approach angle to determine the bounce direction</li>
+          <li>Reverse both velocity components for corner hits</li>
+          <li>Use physics-based response with reflection vectors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <div class="example-header">
+        <h3>Multiple Collisions in a Single Frame</h3>
+      </div>
+      <div class="example-content">
+        <p>If multiple bricks are hit in a single frame, the ball might reverse direction multiple times, resulting in
+          unpredictable behavior:</p>
+
+        <p><strong>Solutions:</strong></p>
+        <ul>
+          <li>Process only the first collision per frame (our approach)</li>
+          <li>Sort collisions by time of impact and process them in order</li>
+          <li>Use a physics step approach with multiple substeps per frame</li>
+        </ul>
+
+        <div class="tip">
+          <p><strong>Our Approach:</strong> In our implementation, we break out of the brick collision loop after the
+            first hit. This ensures we only process one brick collision per frame, which is sufficient for a simple
+            Breakout game.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Debugging Collision Detection</h2>
+    <p>When implementing collision detection, bugs are common. Here are some debugging techniques:</p>
+
+    <ul>
+      <li><strong>Visual debugging:</strong> Draw collision boundaries to see if they match what you expect</li>
+      <li><strong>Slow motion:</strong> Temporarily reduce game speed to observe collision behavior</li>
+      <li><strong>Step-by-step execution:</strong> Add controls to advance the game one frame at a time</li>
+      <li><strong>Logging:</strong> Output collision data to the console for analysis</li>
+      <li><strong>Edge cases:</strong> Test with extreme positions and velocities</li>
+    </ul>
+
+    <pre><code>// Example of visual debugging
+// Add this to the draw method of entities
+drawCollisionBoundary(ctx) {
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 1;
+
+  if (this instanceof Ball) {
+    // Draw circle boundary
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.stroke();
+  } else {
+    // Draw rectangle boundary
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
+  }
+}</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>Exercise: Implementing Brick Collision</h2>
+    <p>To practice collision detection, complete the <code>checkBrickCollisions</code> method in the
+      <code>CollisionManager</code> class:
+    </p>
+
+    <pre><code>checkBrickCollisions() {
+  // TODO: Implement brick collision detection and response
+  // 1. Get reference to the ball
+  // 2. Loop through all bricks in the game
+  // 3. For each brick that isn't broken:
+  //    - Check if the ball collides with it using ball.collidesWith(brick)
+  //    - If collision detected:
+  //      * Break the brick (brick.break())
+  //      * Add points to the score (game.addScore(DEFAULTS.POINTS_PER_BRICK))
+  //      * Calculate bounce direction using calculateBounceDirection()
+}</code></pre>
+
+    <p>This exercise will help you understand how to integrate collision detection into the game structure, and how the
+      different components (Ball, Brick, CollisionManager, Game) work together.</p>
+  </div>
+
+  <div class="footer">
+    <p>Breakout Game - A JavaScript Class Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>

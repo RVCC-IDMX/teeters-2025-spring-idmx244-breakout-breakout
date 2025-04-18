@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breakout Game: Assignment Instructions</title>
+  <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="header.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for this assignment page */
+    .step-container {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .step-header {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .step-header h3 {
+      margin: 0;
+      color: #4caf50;
+    }
+
+    .step-content {
+      padding: 15px;
+    }
+
+    .code-sample {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 1px solid #ddd;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tip {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #4caf50;
+    }
+
+    .warning {
+      background-color: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #ffc107;
+    }
+
+    .grading-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .grading-table th,
+    .grading-table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+    }
+
+    .grading-table th {
+      background-color: #f2f2f2;
+      text-align: left;
+    }
+
+    .grading-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="site-nav">
+        <div class="logo">
+          <a href="index.html">
+            <img src="./favicon.png" alt="game icon" class="logo-img">
+            <span>Breakout Game</span>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="assignment.html" class="nav-link">Assignment</a></li>
+          <li><a href="classes.html" class="nav-link">ES6 Classes</a></li>
+          <li><a href="canvas.html" class="nav-link">Canvas Basics</a></li>
+          <li><a href="collision.html" class="nav-link">Collision Detection</a></li>
+          <li><a href="object-freeze.html" class="nav-link">Object.freeze()</a></li>
+          <li><a href="game-loop.html" class="nav-link">Game Loop</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>Breakout Game: Assignment Instructions</h1>
+    <p>Implement a classic Breakout game using ES6 classes and HTML5 Canvas by completing the provided starter code.</p>
+  </div>
+
+  <div class="card">
+    <h2>Assignment Overview</h2>
+    <p>In this assignment, you'll implement a classic Breakout game using modern JavaScript techniques including ES6
+      classes and HTML5 Canvas. You've been provided with starter code that includes complete HTML/CSS and the game
+      structure. Your task is to implement the core functionality in the JavaScript files.</p>
+
+    <h3>Learning Objectives</h3>
+    <ul>
+      <li>Implement ES6 classes (converting from constructor functions)</li>
+      <li>Work with HTML5 Canvas for game rendering</li>
+      <li>Create game physics and collision detection</li>
+      <li>Manage game state and object interactions</li>
+      <li>Apply modular JavaScript architecture</li>
+      <li>Understand the use of Object.freeze() for constants</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Project Structure</h2>
+    <p>The provided starter code includes a fully organized project structure:</p>
+
+    <pre><code>breakout/
+├── index.html              # Main HTML file (complete)
+├── styles.css              # CSS styles (complete)
+├── js/
+│   ├── main.js             # Entry point (complete)
+│   ├── game.js             # Main game controller (need to implement)
+│   ├── constants.js        # Game constants (complete)
+│   ├── input-handler.js    # Input handling (complete)
+│   ├── collision.js        # Collision detection (need to implement)
+│   ├── ui.js               # UI management (complete)
+│   └── entities/
+│       ├── paddle.js       # Paddle entity (need to implement)
+│       ├── ball.js         # Ball entity (need to implement)
+│       └── brick.js        # Brick entity (need to implement)
+    </code></pre>
+
+    <p>You'll need to implement the files marked "need to implement" while following the TODOs and guidance provided in
+      each file.</p>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 1: Implement the Paddle Class</h3>
+      </div>
+      <div class="step-content">
+        <p>Start by implementing the Paddle class in <code>js/entities/paddle.js</code>. This will be your
+          player-controlled element.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Initialize paddle properties (position, dimensions, speed)</li>
+          <li>Implement the update method for paddle movement</li>
+          <li>Create the draw method to render the paddle on canvas</li>
+          <li>Add movement control methods (moveLeft, moveRight, stop)</li>
+          <li>Implement setPosition for mouse/touch control</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>constructor(game) {
+  this.game = game;
+  this.width = DEFAULTS.PADDLE_WIDTH;
+  this.height = DEFAULTS.PADDLE_HEIGHT;
+  this.x = (game.width - this.width) / 2;
+  this.y = game.height - this.height - 10;
+  this.speed = DEFAULTS.PADDLE_SPEED;
+  this.dx = 0; // Direction of movement
+}
+
+update() {
+  // Move paddle and keep within game boundaries
+  this.x += this.dx;
+  if (this.x &lt; 0) {
+    this.x = 0;
+  }
+  if (this.x + this.width &gt; this.game.width) {
+    this.x = this.game.width - this.width;
+  }
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>After implementation, the paddle should appear at the bottom of the screen</li>
+          <li>The paddle should move with arrow keys and mouse/touch input</li>
+          <li>The paddle should stay within the game boundaries</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> Remember to use DEFAULTS from constants.js for paddle dimensions and
+            speed. This maintains consistency and makes the code more maintainable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 2: Implement the Ball Class</h3>
+      </div>
+      <div class="step-content">
+        <p>Next, implement the Ball class in <code>js/entities/ball.js</code>. This will handle ball movement and
+          collision detection with walls.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Initialize ball properties (position, size, speed, direction)</li>
+          <li>Implement update method for ball movement and wall collisions</li>
+          <li>Create the draw method to render the ball on canvas</li>
+          <li>Add collision detection with rectangular objects</li>
+          <li>Implement a reset method for when a life is lost</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>constructor(game) {
+  this.game = game;
+  this.size = DEFAULTS.BALL_SIZE;
+  this.x = game.width / 2;
+  this.y = game.height - 30;
+  this.speed = DEFAULTS.BALL_SPEED;
+  this.dx = this.speed;
+  this.dy = -this.speed;
+}
+
+draw(ctx) {
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+  ctx.fillStyle = '#0095DD';
+  ctx.fill();
+  ctx.closePath();
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>The ball should move around the screen in a diagonal pattern</li>
+          <li>The ball should bounce off the side walls and top wall</li>
+          <li>When the ball goes below the bottom edge, a life should be lost</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> For collision detection with rectangular objects, check if the ball's
+            position plus its radius overlaps with the rectangle's boundaries. Consider using distance calculations for
+            more precise collisions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 3: Implement the Brick Class</h3>
+      </div>
+      <div class="step-content">
+        <p>Implement the Brick class in <code>js/entities/brick.js</code>. This will represent the breakable blocks in
+          the game.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Initialize brick properties (position, dimensions, color, broken state)</li>
+          <li>Implement the draw method to render the brick on canvas</li>
+          <li>Create the break method to mark a brick as broken</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>constructor(game, x, y, width, height, color) {
+  this.game = game;
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+  this.color = color;
+  this.broken = false;
+}
+
+draw(ctx) {
+  if (!this.broken) {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    // Add a border around the brick
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
+  }
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>Bricks should appear at the top of the screen in a grid pattern</li>
+          <li>Bricks should have different colors based on their row</li>
+          <li>Bricks should disappear when broken</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> The brick's draw method should only render the brick if it's not
+            broken. This is simpler than removing broken bricks from the array.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 4: Implement Collision Detection</h3>
+      </div>
+      <div class="step-content">
+        <p>Implement the CollisionManager class in <code>js/collision.js</code> to handle collisions between game
+          objects.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Implement the checkCollisions method to check for all collisions</li>
+          <li>Create checkPaddleCollision for ball-paddle collisions</li>
+          <li>Implement checkBrickCollisions for ball-brick interactions</li>
+          <li>Add calculateBounceDirection to determine how the ball should bounce</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>checkPaddleCollision() {
+  const ball = this.game.ball;
+  const paddle = this.game.paddle;
+
+  if (
+    ball.y + ball.size &gt; paddle.y &&
+    ball.y + ball.size &lt; paddle.y + paddle.height &&
+    ball.x &gt; paddle.x &&
+    ball.x &lt; paddle.x + paddle.width
+  ) {
+    ball.dy = -ball.speed;
+
+    // Modify angle based on where ball hits paddle
+    const hitPosition = (ball.x - paddle.x) / paddle.width;
+    ball.dx = ball.speed * (hitPosition * 2 - 1) * 1.5;
+  }
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>The ball should bounce off the paddle</li>
+          <li>The ball should bounce at different angles depending on where it hits the paddle</li>
+          <li>The ball should break bricks on collision</li>
+          <li>The score should increase when bricks are broken</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> For better gameplay, make the ball's bounce angle from the paddle
+            depend on where it hits. Hits near the center should bounce more vertically, while hits near the edges
+            should bounce at sharper angles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Step 5: Implement the Game Controller</h3>
+      </div>
+      <div class="step-content">
+        <p>Finally, implement the Game class in <code>js/game.js</code> to manage game state and coordinate all the
+          components.</p>
+
+        <h4>Tasks:</h4>
+        <ol>
+          <li>Initialize game state (score, lives, gameState)</li>
+          <li>Implement the game initialization and setup</li>
+          <li>Create the main game loop</li>
+          <li>Handle game events (ball lost, game over, win)</li>
+          <li>Implement brick layout setup</li>
+        </ol>
+
+        <div class="code-sample">
+          <h4>Code Guidelines:</h4>
+          <pre><code>gameLoop() {
+  if (this.gameState !== GAME_STATES.PLAYING) return;
+
+  // Clear canvas
+  this.ctx.clearRect(0, 0, this.width, this.height);
+
+  // Update entities
+  this.paddle.update();
+  this.ball.update();
+
+  // Check for collisions
+  this.collisionManager.checkCollisions();
+
+  // Draw all game entities
+  this.paddle.draw(this.ctx);
+  this.ball.draw(this.ctx);
+
+  // Draw bricks and check for win
+  let remainingBricks = 0;
+  this.bricks.forEach(brick =&gt; {
+    if (!brick.broken) {
+      remainingBricks++;
+      brick.draw(this.ctx);
+    }
+  });
+
+  // Win condition
+  if (remainingBricks === 0) {
+    this.win();
+    return;
+  }
+
+  // Debug message
+  this.ui.renderDebug(this.ctx, this.debugMessage);
+
+  // Continue game loop
+  requestAnimationFrame(() =&gt; this.gameLoop());
+}</code></pre>
+        </div>
+
+        <h4>Testing:</h4>
+        <ol>
+          <li>The game should initialize with all elements in the correct positions</li>
+          <li>The game loop should continuously update and render the game</li>
+          <li>Lives should decrease when the ball is lost</li>
+          <li>The game should end when all lives are lost</li>
+          <li>The player should win when all bricks are broken</li>
+        </ol>
+
+        <div class="tip">
+          <p><strong>Implementation Tip:</strong> The game loop is the heart of your game. Make sure to use
+            requestAnimationFrame for smooth animation and consistent performance across different devices.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Submission Guidelines</h2>
+    <p>After completing all implementation tasks:</p>
+    <ol>
+      <li>Test your game thoroughly to ensure all features work correctly</li>
+      <li>Make sure your code follows the provided ESLint configuration</li>
+      <li>Check that there are no errors in the browser console</li>
+      <li>Submit your completed code according to the course instructions</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Extension Ideas</h2>
+    <p>If you finish early and want to enhance your game, consider these additions:</p>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Add Power-ups</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Wider paddle</li>
+          <li>Multiple balls</li>
+          <li>Ball speed changes</li>
+          <li>Extra lives</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Enhanced Brick Types</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Multi-hit bricks that require multiple hits to break</li>
+          <li>Special bricks that drop power-ups</li>
+          <li>Indestructible bricks that never break</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-container">
+      <div class="step-header">
+        <h3>Game Progression</h3>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li>Multiple levels with different brick layouts</li>
+          <li>Increasing difficulty (faster ball, smaller paddle)</li>
+          <li>High score system using localStorage</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Remember:</strong> Focus on completing the core requirements before attempting extensions!</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Breakout Game - A JavaScript Class Learning Project</p>
+    <p>Created for educational purposes to demonstrate object-oriented programming principles</p>
+  </div>
+</body>
+
+</html>
