@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Breakout Game: Assignment Instructions</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
+    defer></script>
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -141,7 +146,7 @@
     <h2>Project Structure</h2>
     <p>The provided starter code includes a fully organized project structure:</p>
 
-    <pre><code>breakout/
+    <pre><code class="language-javascript">breakout/
 ├── index.html              # Main HTML file (complete)
 ├── styles.css              # CSS styles (complete)
 ├── js/
@@ -181,7 +186,7 @@
 
         <div class="code-sample">
           <h4>Code Guidelines:</h4>
-          <pre><code>constructor(game) {
+          <pre><code class="language-javascript">constructor(game) {
   this.game = game;
   this.width = DEFAULTS.PADDLE_WIDTH;
   this.height = DEFAULTS.PADDLE_HEIGHT;
@@ -238,7 +243,7 @@ update() {
 
         <div class="code-sample">
           <h4>Code Guidelines:</h4>
-          <pre><code>constructor(game) {
+          <pre><code class="language-javascript">constructor(game) {
   this.game = game;
   this.size = DEFAULTS.BALL_SIZE;
   this.x = game.width / 2;
@@ -291,7 +296,7 @@ draw(ctx) {
 
         <div class="code-sample">
           <h4>Code Guidelines:</h4>
-          <pre><code>constructor(game, x, y, width, height, color) {
+          <pre><code class="language-javascript">constructor(game, x, y, width, height, color) {
   this.game = game;
   this.x = x;
   this.y = y;
@@ -348,7 +353,7 @@ draw(ctx) {
 
         <div class="code-sample">
           <h4>Code Guidelines:</h4>
-          <pre><code>checkPaddleCollision() {
+          <pre><code class="language-javascript">checkPaddleCollision() {
   const ball = this.game.ball;
   const paddle = this.game.paddle;
 
@@ -404,7 +409,7 @@ draw(ctx) {
 
         <div class="code-sample">
           <h4>Code Guidelines:</h4>
-          <pre><code>gameLoop() {
+          <pre><code class="language-javascript">gameLoop() {
   if (this.gameState !== GAME_STATES.PLAYING) return;
 
   // Clear canvas

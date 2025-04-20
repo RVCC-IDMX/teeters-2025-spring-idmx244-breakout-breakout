@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Breakout Game: Canvas Basics</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
+    defer></script>
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -192,10 +197,10 @@
       </div>
       <div class="example-content">
         <h4>HTML:</h4>
-        <pre><code>&lt;canvas id="gameCanvas" width="800" height="600"&gt;&lt;/canvas&gt;</code></pre>
+        <pre><code class="language-javascript">&lt;canvas id="gameCanvas" width="800" height="600"&gt;&lt;/canvas&gt;</code></pre>
 
         <h4>JavaScript:</h4>
-        <pre><code>// Get a reference to the canvas element
+        <pre><code class="language-javascript">// Get a reference to the canvas element
 const canvas = document.getElementById('gameCanvas');
 
 // Get the drawing context (2d for 2D graphics)
@@ -220,7 +225,7 @@ const ctx = canvas.getContext('2d');
     <div class="canvas-example">
       <div class="code-and-canvas">
         <div class="code-block">
-          <pre><code>// Draw coordinate axes
+          <pre><code class="language-javascript">// Draw coordinate axes
 ctx.beginPath();
 ctx.moveTo(0, 50);
 ctx.lineTo(100, 50);
@@ -287,7 +292,7 @@ ctx.fillRect(100, 100, 3, 3);</code></pre>
 
         <div class="code-and-canvas">
           <div class="code-block">
-            <pre><code>// Fill a rectangle (x, y, width, height)
+            <pre><code class="language-javascript">// Fill a rectangle (x, y, width, height)
 ctx.fillStyle = '#0095DD'; // Set fill color
 ctx.fillRect(25, 25, 100, 50);
 
@@ -317,7 +322,7 @@ ctx.clearRect(75, 45, 50, 10);</code></pre>
 
         <div class="code-and-canvas">
           <div class="code-block">
-            <pre><code>// Begin a new path
+            <pre><code class="language-javascript">// Begin a new path
 ctx.beginPath();
 
 // Draw an arc/circle
@@ -359,7 +364,7 @@ ctx.stroke();</code></pre>
 
         <div class="code-and-canvas">
           <div class="code-block">
-            <pre><code>// Set text font and style
+            <pre><code class="language-javascript">// Set text font and style
 ctx.font = '24px Arial';
 ctx.fillStyle = '#0095DD';
 
@@ -393,7 +398,7 @@ ctx.strokeText('Lives: 3', 200, 50);</code></pre>
       <div class="example-content">
         <div class="code-and-canvas">
           <div class="code-block">
-            <pre><code>// Begin a new path
+            <pre><code class="language-javascript">// Begin a new path
 ctx.beginPath();
 
 // Move to starting point
@@ -447,7 +452,7 @@ ctx.stroke();</code></pre>
         <h3>Animation Basics</h3>
       </div>
       <div class="example-content">
-        <pre><code>function draw() {
+        <pre><code class="language-javascript">function draw() {
   // Clear the entire canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -485,7 +490,7 @@ draw();</code></pre>
         <h3>Drawing the Paddle</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Paddle class
+        <pre><code class="language-javascript">// In the Paddle class
 draw(ctx) {
   ctx.fillStyle = '#0095DD';
   ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -498,7 +503,7 @@ draw(ctx) {
         <h3>Drawing the Ball</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Ball class
+        <pre><code class="language-javascript">// In the Ball class
 draw(ctx) {
   ctx.beginPath();
   ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -514,7 +519,7 @@ draw(ctx) {
         <h3>Drawing the Bricks</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Brick class
+        <pre><code class="language-javascript">// In the Brick class
 draw(ctx) {
   if (!this.broken) {
     ctx.fillStyle = this.color;
@@ -534,7 +539,7 @@ draw(ctx) {
         <h3>Main Game Loop Drawing</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Game class
+        <pre><code class="language-javascript">// In the Game class
 gameLoop() {
   if (this.gameState !== GAME_STATES.PLAYING) return;
 
@@ -617,7 +622,7 @@ gameLoop() {
         <h3>Translation, Rotation, and Scaling</h3>
       </div>
       <div class="example-content">
-        <pre><code>// Save the current state
+        <pre><code class="language-javascript">// Save the current state
 ctx.save();
 
 // Translate (move) the origin
@@ -654,7 +659,7 @@ ctx.restore();</code></pre>
         <h3>Responsive Canvas Setup</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In our Game class - called when window is resized
+        <pre><code class="language-javascript">// In our Game class - called when window is resized
 updateCanvasScale() {
   this.canvasScale = {
     x: this.canvas.width / this.canvas.offsetWidth,
@@ -679,7 +684,7 @@ window.addEventListener('resize', () =&gt; {
     <p>To practice your Canvas skills, try implementing this simple drawing function that creates a colorful brick
       pattern:</p>
 
-    <pre><code>function drawBrickPattern(ctx, rows, columns, colors) {
+    <pre><code class="language-javascript">function drawBrickPattern(ctx, rows, columns, colors) {
   const canvasWidth = ctx.canvas.width;
   const canvasHeight = ctx.canvas.height;
 

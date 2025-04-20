@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Breakout Game: Game Loop</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
+    defer></script>
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -180,7 +185,7 @@
         <h3>Simple Game Loop</h3>
       </div>
       <div class="example-content">
-        <pre><code>function gameLoop() {
+        <pre><code class="language-javascript">function gameLoop() {
   // Process input
 
   // Update game state
@@ -216,7 +221,7 @@ gameLoop();</code></pre>
         <h3>Our Game Loop Implementation</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Game class
+        <pre><code class="language-javascript">// In the Game class
 gameLoop() {
   // Exit if the game is not in the PLAYING state
   if (this.gameState !== GAME_STATES.PLAYING) return;
@@ -257,7 +262,7 @@ gameLoop() {
 
         <p>The game loop starts when the player clicks the "Start Game" button:</p>
 
-        <pre><code>// In the Game class
+        <pre><code class="language-javascript">// In the Game class
 startGame() {
   this.gameState = GAME_STATES.PLAYING;
   this.ui.showScreen(GAME_STATES.PLAYING);
@@ -282,7 +287,7 @@ startGame() {
         <p>In our game, input processing is handled through event listeners that directly update the paddle's movement
           state. These event listeners are set up in the <code>InputHandler</code> class:</p>
 
-        <pre><code>// In the InputHandler class
+        <pre><code class="language-javascript">// In the InputHandler class
 setupKeyboardControls() {
   document.addEventListener('keydown', (e) =&gt; {
     if (this.game.gameState !== GAME_STATES.PLAYING || !this.paddle) {
@@ -311,7 +316,7 @@ setupKeyboardControls() {
 
         <p>Mouse and touch input is handled similarly:</p>
 
-        <pre><code>// In the InputHandler class
+        <pre><code class="language-javascript">// In the InputHandler class
 setupMouseControls() {
   this.game.canvas.addEventListener('mousemove', (e) =&gt; {
     if (this.game.gameState !== GAME_STATES.PLAYING || !this.paddle) {
@@ -333,7 +338,7 @@ setupMouseControls() {
       <div class="example-content">
         <p>This step updates the positions and states of all game entities:</p>
 
-        <pre><code>// Update paddle position
+        <pre><code class="language-javascript">// Update paddle position
 this.paddle.update();
 
 // Update ball position
@@ -344,7 +349,7 @@ this.collisionManager.checkCollisions();</code></pre>
 
         <p>Each entity has its own update logic:</p>
 
-        <pre><code>// In the Paddle class
+        <pre><code class="language-javascript">// In the Paddle class
 update() {
   // Move paddle based on its current direction
   this.x += this.dx;
@@ -387,7 +392,7 @@ update() {
       <div class="example-content">
         <p>This step draws all game elements to the canvas:</p>
 
-        <pre><code>// Clear the canvas
+        <pre><code class="language-javascript">// Clear the canvas
 this.ctx.clearRect(0, 0, this.width, this.height);
 
 // Draw paddle
@@ -405,7 +410,7 @@ this.bricks.forEach(brick =&gt; {
 
         <p>Each entity has its own draw method:</p>
 
-        <pre><code>// In the Paddle class
+        <pre><code class="language-javascript">// In the Paddle class
 draw(ctx) {
   ctx.fillStyle = '#0095DD';
   ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -440,7 +445,7 @@ draw(ctx) {
       <div class="example-content">
         <p>After updating and rendering, we check if any game rules have been triggered:</p>
 
-        <pre><code>// Check for win condition
+        <pre><code class="language-javascript">// Check for win condition
 if (this.bricks.every(brick =&gt; brick.broken)) {
   this.win();
   return;
@@ -448,7 +453,7 @@ if (this.bricks.every(brick =&gt; brick.broken)) {
 
         <p>Similarly, we check for game over conditions in the ball update method:</p>
 
-        <pre><code>// In the Ball class update method
+        <pre><code class="language-javascript">// In the Ball class update method
 if (this.y + this.size &gt; this.game.height) {
   this.game.ballLost();
 }
@@ -484,7 +489,7 @@ win() {
       <div class="example-content">
         <p>Finally, we request the next animation frame to continue the loop:</p>
 
-        <pre><code>// Continue the game loop
+        <pre><code class="language-javascript">// Continue the game loop
 requestAnimationFrame(() =&gt; this.gameLoop());</code></pre>
 
         <p>This schedules the next iteration of the game loop to run before the next repaint.</p>
@@ -502,7 +507,7 @@ requestAnimationFrame(() =&gt; this.gameLoop());</code></pre>
         <h4>Fixed Time Step</h4>
         <p>Updates the game at a fixed rate, regardless of the actual frame rate:</p>
 
-        <pre><code>const FIXED_STEP = 1000 / 60; // 60 updates per second
+        <pre><code class="language-javascript">const FIXED_STEP = 1000 / 60; // 60 updates per second
 let lastTime = 0;
 let accumulator = 0;
 
@@ -544,7 +549,7 @@ function gameLoop(currentTime) {
         <h4>Variable Time Step</h4>
         <p>Updates the game based on the actual time elapsed:</p>
 
-        <pre><code>let lastTime = 0;
+        <pre><code class="language-javascript">let lastTime = 0;
 
 function gameLoop(currentTime) {
   // Calculate delta time in seconds
@@ -628,7 +633,7 @@ function gameLoop(currentTime) {
       <div class="example-content">
         <p>Here's how you might modify our game to use delta time:</p>
 
-        <pre><code>// In the Game class
+        <pre><code class="language-javascript">// In the Game class
 let lastTime = 0;
 
 gameLoop(currentTime) {
@@ -673,7 +678,7 @@ startGame() {
 
         <p>And in the entity update methods:</p>
 
-        <pre><code>// In the Ball class
+        <pre><code class="language-javascript">// In the Ball class
 update(deltaTime) {
   // Move ball based on its current direction and delta time
   this.x += this.dx * deltaTime * 60; // Scale by 60 to keep similar speed as before
@@ -695,7 +700,7 @@ update(deltaTime) {
         <h3>Debug Messages</h3>
       </div>
       <div class="example-content">
-        <pre><code>// In the Game class
+        <pre><code class="language-javascript">// In the Game class
 debug(message) {
   this.debugMessage = message;
 }
@@ -713,7 +718,7 @@ renderDebug(ctx, message) {
 
         <p>For more advanced debugging, you might want to monitor performance:</p>
 
-        <pre><code>// Performance monitoring
+        <pre><code class="language-javascript">// Performance monitoring
 let frameCount = 0;
 let lastFpsTime = 0;
 let fps = 0;
@@ -743,7 +748,7 @@ function gameLoop(currentTime) {
         <h3>Pause Functionality</h3>
       </div>
       <div class="example-content">
-        <pre><code>// Add a PAUSED state to our game states
+        <pre><code class="language-javascript">// Add a PAUSED state to our game states
 export const GAME_STATES = Object.freeze({
   START: 'start',
   PLAYING: 'playing',
@@ -770,7 +775,7 @@ resumeGame() {
 
         <p>Then, we need to add a pause button or key listener:</p>
 
-        <pre><code>// In the InputHandler class
+        <pre><code class="language-javascript">// In the InputHandler class
 document.addEventListener('keydown', (e) =&gt; {
   if (e.key === 'Escape' || e.key === 'p' || e.key === 'P') {
     if (this.game.gameState === GAME_STATES.PLAYING) {

@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Breakout Game: ES6 Classes</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
+    defer></script>
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -133,7 +138,7 @@
     <div class="comparison">
       <div class="comparison-column">
         <h4>Pre-ES6 Constructor Function</h4>
-        <pre><code>// Constructor function
+        <pre><code class="language-javascript">// Constructor function
 function Ball(game, x, y) {
   this.game = game;
   this.x = x;
@@ -170,7 +175,7 @@ Ball.prototype.draw = function(ctx) {
       </div>
       <div class="comparison-column">
         <h4>ES6 Class</h4>
-        <pre><code>// ES6 class
+        <pre><code class="language-javascript">// ES6 class
 class Ball {
   constructor(game, x, y) {
     this.game = game;
@@ -227,7 +232,7 @@ class Ball {
         <h3>Basic Class Structure</h3>
       </div>
       <div class="example-content">
-        <pre><code>class ClassName {
+        <pre><code class="language-javascript">class ClassName {
   // Class constructor
   constructor(param1, param2) {
     // Initialize properties
@@ -262,7 +267,7 @@ class Ball {
       <div class="example-content">
         <p>ES6 classes support inheritance using the <code>extends</code> keyword:</p>
 
-        <pre><code>class Parent {
+        <pre><code class="language-javascript">class Parent {
   constructor(name) {
     this.name = name;
   }
@@ -301,7 +306,7 @@ class Child extends Parent {
       <div class="example-content">
         <p>Static methods and properties belong to the class itself, not to instances of the class:</p>
 
-        <pre><code>class MathHelper {
+        <pre><code class="language-javascript">class MathHelper {
   // Static method
   static randomBetween(min, max) {
     return Math.random() * (max - min) + min;
@@ -313,7 +318,7 @@ class Child extends Parent {
 
         <p>You can call static methods directly on the class without creating an instance:</p>
 
-        <pre><code>// No need to create a new MathHelper instance
+        <pre><code class="language-javascript">// No need to create a new MathHelper instance
 const randomValue = MathHelper.randomBetween(1, 10);
 console.log(MathHelper.PI);</code></pre>
       </div>
@@ -336,7 +341,7 @@ console.log(MathHelper.PI);</code></pre>
           <li><strong>Brick:</strong> Represents a single breakable brick in the grid.</li>
         </ul>
 
-        <pre><code>// Example from ball.js
+        <pre><code class="language-javascript">// Example from ball.js
 export class Ball {
   constructor(game) {
     this.game = game;
@@ -389,7 +394,7 @@ export class Ball {
           <li><strong>UI:</strong> Handles user interface elements and screens.</li>
         </ul>
 
-        <pre><code>// Example from collision.js
+        <pre><code class="language-javascript">// Example from collision.js
 export class CollisionManager {
   constructor(game) {
     this.game = game;
@@ -428,14 +433,14 @@ export class CollisionManager {
       <div class="example-content">
         <p>To make a class available to other files, you export it:</p>
 
-        <pre><code>// In ball.js
+        <pre><code class="language-javascript">// In ball.js
 export class Ball {
   // Class code
 }</code></pre>
 
         <p>Then, you can import it in another file:</p>
 
-        <pre><code>// In game.js
+        <pre><code class="language-javascript">// In game.js
 import { Ball } from './entities/ball.js';
 
 // Now you can use the Ball class
@@ -443,7 +448,7 @@ this.ball = new Ball(this);</code></pre>
 
         <p>For constants and utilities, you can export multiple items:</p>
 
-        <pre><code>// In constants.js
+        <pre><code class="language-javascript">// In constants.js
 export const GAME_STATES = Object.freeze({
   START: 'start',
   PLAYING: 'playing',
@@ -459,7 +464,7 @@ export const DEFAULTS = Object.freeze({
 
         <p>And import them as needed:</p>
 
-        <pre><code>// Import specific exports
+        <pre><code class="language-javascript">// Import specific exports
 import { GAME_STATES, DEFAULTS } from './constants.js';</code></pre>
       </div>
     </div>
@@ -490,7 +495,7 @@ import { GAME_STATES, DEFAULTS } from './constants.js';</code></pre>
     <h2>Exercise: Converting Constructor Functions to Classes</h2>
     <p>To help solidify your understanding, try converting this constructor function to an ES6 class:</p>
 
-    <pre><code>function Player(name, score) {
+    <pre><code class="language-javascript">function Player(name, score) {
   this.name = name;
   this.score = score || 0;
 }

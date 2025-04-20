@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Breakout Game: Object.freeze()</title>
   <link rel="shortcut icon" href="./favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/toolbar/prism-toolbar.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"
+    defer></script>
   <link rel="stylesheet" href="header.css">
   <link rel="stylesheet" href="styles.css">
   <style>
@@ -130,19 +135,26 @@
 
   <div class="card">
     <h2>Introduction to Object.freeze()</h2>
-    <p>JavaScript constants declared with <code>const</code> prevent reassignment of the variable, but they don't make the content immutable. For objects and arrays, the internal properties and elements can still be modified. This is where <code>Object.freeze()</code> comes in - it makes objects truly immutable by preventing any changes to their properties.</p>
-    
-    <p>In our Breakout game, we use <code>Object.freeze()</code> for game constants like default settings, game states, and keyboard mappings. This ensures these values remain consistent throughout the game and prevents accidental modifications.</p>
+    <p>JavaScript constants declared with <code>const</code> prevent reassignment of the variable, but they don't make
+      the content immutable. For objects and arrays, the internal properties and elements can still be modified. This is
+      where <code>Object.freeze()</code> comes in - it makes objects truly immutable by preventing any changes to their
+      properties.</p>
+
+    <p>In our Breakout game, we use <code>Object.freeze()</code> for game constants like default settings, game states,
+      and keyboard mappings. This ensures these values remain consistent throughout the game and prevents accidental
+      modifications.</p>
   </div>
 
   <div class="card">
     <h2>const vs Object.freeze()</h2>
-    <p>To understand why we need <code>Object.freeze()</code>, let's first explore the limitations of <code>const</code>:</p>
+    <p>To understand why we need <code>Object.freeze()</code>, let's first explore the limitations of
+      <code>const</code>:
+    </p>
 
     <div class="comparison">
       <div class="comparison-column">
         <h4>Using const alone</h4>
-        <pre><code>// Define game settings with const
+        <pre><code class="language-javascript">// Define game settings with const
 const GAME_SETTINGS = {
   lives: 3,
   ballSpeed: 5,
@@ -158,14 +170,16 @@ console.log(GAME_SETTINGS);
 
         <div class="code-output">
           <p><strong>Console Output:</strong><br>
-          { lives: 5, ballSpeed: 10, paddleWidth: 100 }</p>
+            { lives: 5, ballSpeed: 10, paddleWidth: 100 }</p>
         </div>
 
-        <p>As you can see, despite using <code>const</code>, we can still modify the properties of the object. The <code>const</code> keyword only prevents reassigning the variable itself, not modifying its contents.</p>
+        <p>As you can see, despite using <code>const</code>, we can still modify the properties of the object. The
+          <code>const</code> keyword only prevents reassigning the variable itself, not modifying its contents.
+        </p>
       </div>
       <div class="comparison-column">
         <h4>Using Object.freeze()</h4>
-        <pre><code>// Define game settings with Object.freeze()
+        <pre><code class="language-javascript">// Define game settings with Object.freeze()
 const GAME_SETTINGS = Object.freeze({
   lives: 3,
   ballSpeed: 5,
@@ -181,17 +195,20 @@ console.log(GAME_SETTINGS);
 
         <div class="code-output">
           <p><strong>Console Output:</strong><br>
-          { lives: 3, ballSpeed: 5, paddleWidth: 100 }</p>
+            { lives: 3, ballSpeed: 5, paddleWidth: 100 }</p>
         </div>
 
-        <p>With <code>Object.freeze()</code>, the object's properties cannot be modified. Attempts to change them are silently ignored in non-strict mode or throw errors in strict mode.</p>
+        <p>With <code>Object.freeze()</code>, the object's properties cannot be modified. Attempts to change them are
+          silently ignored in non-strict mode or throw errors in strict mode.</p>
       </div>
     </div>
 
     <div class="note">
-      <p><strong>JavaScript's Strict Mode:</strong> In strict mode, attempting to modify a frozen object will throw a TypeError. You can enable strict mode by adding <code>'use strict';</code> at the top of your file or function.</p>
+      <p><strong>JavaScript's Strict Mode:</strong> In strict mode, attempting to modify a frozen object will throw a
+        TypeError. You can enable strict mode by adding <code>'use strict';</code> at the top of your file or function.
+      </p>
 
-      <pre><code>'use strict';
+      <pre><code class="language-javascript">'use strict';
 
 const GAME_SETTINGS = Object.freeze({
   lives: 3
@@ -204,14 +221,15 @@ GAME_SETTINGS.lives = 5; // TypeError: Cannot assign to read only property 'live
 
   <div class="card">
     <h2>Using Object.freeze() in Our Breakout Game</h2>
-    <p>In our Breakout game, we use <code>Object.freeze()</code> in the <code>constants.js</code> file to define immutable game constants:</p>
+    <p>In our Breakout game, we use <code>Object.freeze()</code> in the <code>constants.js</code> file to define
+      immutable game constants:</p>
 
     <div class="example-container">
       <div class="example-header">
         <h3>Game States</h3>
       </div>
       <div class="example-content">
-        <pre><code>// constants.js
+        <pre><code class="language-javascript">// constants.js
 export const GAME_STATES = Object.freeze({
   START: 'start',
   PLAYING: 'playing',
@@ -219,9 +237,10 @@ export const GAME_STATES = Object.freeze({
   WIN: 'win'
 });</code></pre>
 
-        <p>This ensures that our game state values remain constant throughout the game. We can safely use them for comparisons like:</p>
+        <p>This ensures that our game state values remain constant throughout the game. We can safely use them for
+          comparisons like:</p>
 
-        <pre><code>if (this.gameState === GAME_STATES.PLAYING) {
+        <pre><code class="language-javascript">if (this.gameState === GAME_STATES.PLAYING) {
   // Game is playing...
 }</code></pre>
 
@@ -234,7 +253,7 @@ export const GAME_STATES = Object.freeze({
         <h3>Default Settings</h3>
       </div>
       <div class="example-content">
-        <pre><code>// constants.js
+        <pre><code class="language-javascript">// constants.js
 export const DEFAULTS = Object.freeze({
   LIVES: 3,
   BALL_SPEED: 3,
@@ -245,9 +264,10 @@ export const DEFAULTS = Object.freeze({
   POINTS_PER_BRICK: 10
 });</code></pre>
 
-        <p>These default settings define the initial state of our game. By freezing this object, we ensure that these values remain constant, which helps with consistency and debugging.</p>
+        <p>These default settings define the initial state of our game. By freezing this object, we ensure that these
+          values remain constant, which helps with consistency and debugging.</p>
 
-        <pre><code>// In the Ball class constructor
+        <pre><code class="language-javascript">// In the Ball class constructor
 constructor(game) {
   this.size = DEFAULTS.BALL_SIZE;
   this.speed = DEFAULTS.BALL_SPEED;
@@ -261,7 +281,7 @@ constructor(game) {
         <h3>Brick Configuration</h3>
       </div>
       <div class="example-content">
-        <pre><code>// constants.js
+        <pre><code class="language-javascript">// constants.js
 export const BRICK_CONFIG = Object.freeze({
   ROWS: 5,
   COLUMNS: 8,
@@ -279,7 +299,8 @@ export const BRICK_CONFIG = Object.freeze({
   ]
 });</code></pre>
 
-        <p>This configuration defines how our brick layout is structured. By freezing it, we prevent accidental modifications to the brick arrangement during gameplay.</p>
+        <p>This configuration defines how our brick layout is structured. By freezing it, we prevent accidental
+          modifications to the brick arrangement during gameplay.</p>
       </div>
     </div>
 
@@ -288,7 +309,7 @@ export const BRICK_CONFIG = Object.freeze({
         <h3>Keyboard Controls</h3>
       </div>
       <div class="example-content">
-        <pre><code>// constants.js
+        <pre><code class="language-javascript">// constants.js
 export const KEYS = Object.freeze({
   LEFT: ['ArrowLeft', 'a', 'A', 'h', 'H'],
   RIGHT: ['ArrowRight', 'd', 'D', 'l', 'L'],
@@ -298,9 +319,10 @@ export const KEYS = Object.freeze({
   }
 });</code></pre>
 
-        <p>This defines the keyboard controls for our game. Freezing this object ensures that the control scheme remains consistent.</p>
+        <p>This defines the keyboard controls for our game. Freezing this object ensures that the control scheme remains
+          consistent.</p>
 
-        <pre><code>// In the InputHandler class
+        <pre><code class="language-javascript">// In the InputHandler class
 if (KEYS.LEFT.includes(e.key) || e.keyCode === KEYS.KEY_CODES.LEFT) {
   this.paddle.moveLeft();
 }</code></pre>
@@ -317,9 +339,10 @@ if (KEYS.LEFT.includes(e.key) || e.keyCode === KEYS.KEY_CODES.LEFT) {
         <h3>Shallow Freezing</h3>
       </div>
       <div class="example-content">
-        <p><code>Object.freeze()</code> only freezes the top-level properties of an object. Nested objects can still be modified:</p>
+        <p><code>Object.freeze()</code> only freezes the top-level properties of an object. Nested objects can still be
+          modified:</p>
 
-        <pre><code>const GAME_CONFIG = Object.freeze({
+        <pre><code class="language-javascript">const GAME_CONFIG = Object.freeze({
   general: {
     lives: 3,
     level: 1
@@ -334,22 +357,23 @@ if (KEYS.LEFT.includes(e.key) || e.keyCode === KEYS.KEY_CODES.LEFT) {
 GAME_CONFIG.general.lives = 5;
 console.log(GAME_CONFIG.general.lives); // 5</code></pre>
 
-        <p>To completely freeze nested objects, you need to recursively apply <code>Object.freeze()</code> to all nested objects:</p>
+        <p>To completely freeze nested objects, you need to recursively apply <code>Object.freeze()</code> to all nested
+          objects:</p>
 
-        <pre><code>function deepFreeze(obj) {
+        <pre><code class="language-javascript">function deepFreeze(obj) {
   // Get all properties, including non-enumerable ones
   const propNames = Object.getOwnPropertyNames(obj);
-  
+
   // Freeze properties before freezing self
   for (const name of propNames) {
     const value = obj[name];
-    
+
     // Recursively freeze if property is an object
     if (value && typeof value === 'object') {
       deepFreeze(value);
     }
   }
-  
+
   // Freeze self
   return Object.freeze(obj);
 }
@@ -378,7 +402,7 @@ console.log(GAME_CONFIG.general.lives); // Still 3</code></pre>
       <div class="example-content">
         <p>You can also freeze arrays, but remember that it's still a shallow freeze:</p>
 
-        <pre><code>const LEVELS = Object.freeze([1, 2, 3]);
+        <pre><code class="language-javascript">const LEVELS = Object.freeze([1, 2, 3]);
 
 // This will not work
 LEVELS[0] = 10;
@@ -394,20 +418,26 @@ const ENEMIES = Object.freeze([
 ENEMIES[0].speed = 5;
 console.log(ENEMIES[0].speed); // 5</code></pre>
 
-        <p>To completely freeze arrays of objects, you'd need to apply <code>deepFreeze()</code> as shown in the previous example.</p>
+        <p>To completely freeze arrays of objects, you'd need to apply <code>deepFreeze()</code> as shown in the
+          previous example.</p>
       </div>
     </div>
   </div>
 
   <div class="card">
     <h2>Best Practices for Using Object.freeze()</h2>
-    
+
     <ul>
-      <li><strong>Use clear naming conventions:</strong> Constants defined with <code>Object.freeze()</code> are typically written in ALL_CAPS to indicate they should not be modified.</li>
-      <li><strong>Group related constants:</strong> Organize constants into objects based on their purpose (game states, settings, controls, etc.).</li>
-      <li><strong>Use deep freezing for nested objects:</strong> If your constants contain nested objects, use a deep freeze function to ensure complete immutability.</li>
-      <li><strong>Export frozen objects:</strong> When using ES6 modules, export the frozen objects directly so they can be imported in other files.</li>
-      <li><strong>Be mindful of performance:</strong> Deep freezing large, complex objects can impact performance. Use it judiciously.</li>
+      <li><strong>Use clear naming conventions:</strong> Constants defined with <code>Object.freeze()</code> are
+        typically written in ALL_CAPS to indicate they should not be modified.</li>
+      <li><strong>Group related constants:</strong> Organize constants into objects based on their purpose (game states,
+        settings, controls, etc.).</li>
+      <li><strong>Use deep freezing for nested objects:</strong> If your constants contain nested objects, use a deep
+        freeze function to ensure complete immutability.</li>
+      <li><strong>Export frozen objects:</strong> When using ES6 modules, export the frozen objects directly so they can
+        be imported in other files.</li>
+      <li><strong>Be mindful of performance:</strong> Deep freezing large, complex objects can impact performance. Use
+        it judiciously.</li>
     </ul>
 
     <div class="tip">
@@ -431,9 +461,10 @@ console.log(ENEMIES[0].speed); // 5</code></pre>
         <h3>Object.seal()</h3>
       </div>
       <div class="example-content">
-        <p><code>Object.seal()</code> prevents adding or removing properties, but allows modifying existing properties:</p>
+        <p><code>Object.seal()</code> prevents adding or removing properties, but allows modifying existing properties:
+        </p>
 
-        <pre><code>const settings = Object.seal({
+        <pre><code class="language-javascript">const settings = Object.seal({
   sound: true,
   music: true
 });
@@ -453,9 +484,10 @@ console.log(settings); // { sound: false, music: true }</code></pre>
         <h3>Object.preventExtensions()</h3>
       </div>
       <div class="example-content">
-        <p><code>Object.preventExtensions()</code> prevents adding new properties, but allows modifying or deleting existing ones:</p>
+        <p><code>Object.preventExtensions()</code> prevents adding new properties, but allows modifying or deleting
+          existing ones:</p>
 
-        <pre><code>const settings = Object.preventExtensions({
+        <pre><code class="language-javascript">const settings = Object.preventExtensions({
   sound: true,
   music: true
 });
@@ -486,9 +518,10 @@ console.log(settings); // { sound: false }</code></pre>
 
   <div class="card">
     <h2>Exercise: Creating Game Constants</h2>
-    <p>To practice using <code>Object.freeze()</code>, try creating a set of game constants for a different game feature:</p>
+    <p>To practice using <code>Object.freeze()</code>, try creating a set of game constants for a different game
+      feature:</p>
 
-    <pre><code>// Create a set of constants for power-ups in the game
+    <pre><code class="language-javascript">// Create a set of constants for power-ups in the game
 export const POWER_UPS = Object.freeze({
   TYPES: Object.freeze({
     EXTEND_PADDLE: 'extend',
@@ -511,7 +544,8 @@ export const POWER_UPS = Object.freeze({
   })
 });</code></pre>
 
-    <p>This example creates a nested structure of constants for a power-up system. Note how we freeze both the main object and its nested objects to ensure complete immutability.</p>
+    <p>This example creates a nested structure of constants for a power-up system. Note how we freeze both the main
+      object and its nested objects to ensure complete immutability.</p>
   </div>
 
   <div class="footer">
