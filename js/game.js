@@ -19,14 +19,21 @@ export class Game {
 
     // TODO: Initialize game state
     // - gameState: set to GAME_STATES.START
+    this.gameState = GAME_STATES.START;
     // - score: set to 0
+    this.score = 0;
     // - lives: set to DEFAULTS.LIVES
+    this.lives = DEFAULTS.LIVES
     // - debugMessage: empty string for debug output
+    this.debugMessage = "";
 
     // TODO: Initialize empty arrays/objects for game entities
     // - paddle: set to null
+    this.paddle = null;
     // - ball: set to null
+    this.ball = null;
     // - bricks: empty array
+    this.bricks = [];
 
     // Game systems are provided for you
     this.ui = new UI(this);
@@ -35,6 +42,7 @@ export class Game {
 
     // TODO: Call the init() method to set up the game
     // - Call init()
+    this.init();
 
     // Set up canvas scale (provided for you)
     this.canvasScale = {
@@ -52,15 +60,20 @@ export class Game {
   init() {
     // TODO: Initialize the game
     // - Call createEntities() to create the paddle and ball
+    this.createEntities();
     // - Call setupBricks() to create the brick layout
+    this.setupBricks();
     // - Use ui.showScreen(GAME_STATES.START) to show the start screen
+    this.ui.showScreen(GAME_STATES.START);
   }
 
   // Create game entities
   createEntities() {
     // TODO: Create the paddle and ball
     // - Create a new Paddle instance and assign it to this.paddle
+    let paddle = this.paddle;
     // - Create a new Ball instance and assign it to this.ball
+    let ball = this.ball
   }
 
   // Update canvas scale calculation (provided for you)
@@ -75,6 +88,7 @@ export class Game {
   setupBricks() {
     // TODO: Create the brick layout
     // 1. Clear the bricks array
+    this.bricks = [];
     // 2. Use nested loops to create a grid of bricks
     //    - Outer loop for rows (BRICK_CONFIG.ROWS)
     //    - Inner loop for columns (BRICK_CONFIG.COLUMNS)
@@ -88,17 +102,24 @@ export class Game {
   startGame() {
     // TODO: Start the game
     // 1. Set gameState to PLAYING
+    this.gameState = GAME_STATES.PLAYING
     // 2. Use ui.showScreen(GAME_STATES.PLAYING) to show the playing screen
+    this.ui.showScreen(GAME_STATES.PLAYING);
     // 3. Connect the input handler to the paddle (this.input.setPaddle(this.paddle))
+    this.input.setPaddle(this.paddle);
     // 4. Start the game loop (call gameLoop())
+    this.gameLoop();
   }
 
   // Restart the game
   restartGame() {
     // TODO: Restart the game
     // 1. Reset game state (gameState, score, lives)
+    this.gameState = GAME_STATES.START;
     // 2. Create new entities (call createEntities())
+    this.createEntities();
     // 3. Set up new bricks (call setupBricks())
+    this.setupBricks();
     // 4. Update the input handler with the new paddle
     // 5. Update the UI stats
     // 6. Show the playing screen
@@ -109,9 +130,14 @@ export class Game {
   gameLoop() {
     // TODO: Implement the main game loop
     // 1. Check if the game is still in PLAYING state, return if not
+    if (!GAME_STATES.PLAYING) {
+      return;
+    }
     // 2. Clear the canvas (ctx.clearRect)
+    this.ctx.clearRect();
     // 3. Update game entities (paddle and ball)
     // 4. Check for collisions (collisionManager.checkCollisions())
+    this.collisionManager.checkCollisions()
     // 5. Draw all game entities (paddle, ball, and all non-broken bricks)
     // 6. Check for win condition (all bricks broken)
     // 7. Render debug message if there is one
@@ -122,8 +148,12 @@ export class Game {
   ballLost() {
     // TODO: Handle the ball going below the bottom edge
     // 1. Decrease lives
+    this.lives -= 1;
     // 2. Update the UI stats
     // 3. Check if the player is out of lives (call gameOver() if so)
+    if (this.lives == 0) {
+      this.gameOver();
+    }
     // 4. If the player still has lives, reset the ball position
   }
 
