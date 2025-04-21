@@ -23,13 +23,13 @@ export class Brick {
     // - Check if the brick is broken, if so, don't draw anything
     if (!this.broken) {
       // - Set the fillStyle to the brick's color
-      ctx.fillstyle = this.color;
+      ctx.fillStyle = this.color;
       // - Use fillRect to draw the brick
-      ctx.fillrect(this.x, this.y, this.width, this.height);
+      ctx.fillRect(this.x, this.y, this.width, this.height);
       // - Add a border by using strokeStyle and strokeRect
       ctx.strokeStyle = "#000";
-      ctx.linewidth = 1
-      ctx.strokerect(this.x, this.y, this.width, this.height);
+      ctx.lineWidth = 1
+      ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
 

@@ -52,19 +52,19 @@ export class CollisionManager {
     // TODO: Implement brick collision detection and response
     // 1. Get reference to the ball from the game object
     const ball = this.game.ball;
-    const bricks = this.game.bricks
+    const bricks = this.game.bricks;
     // 2. Loop through all bricks in the game
     for (let brick of bricks) {
       // 3. For each brick that isn't broken:
       //    - Check if the ball collides with it using ball.collidesWith(brick)
-      if (ball.collidesWith(brick)) {
+      if (!brick.broken && ball.collidesWith(brick)) {
         //    - If collision detected:
         //      a. Call brick.break() to break the brick
         brick.break()
         //      b. Add points to the score using game.addScore(DEFAULTS.POINTS_PER_BRICK)
         this.game.addScore(DEFAULTS.POINTS_PER_BRICK);
         //      c. Call calculateBounceDirection() to determine how the ball should bounce
-        this.calculateBounceDirection();
+        this.calculateBounceDirection(ball, brick);
         break;
       }
     }

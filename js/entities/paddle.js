@@ -43,7 +43,7 @@ export class Paddle {
     // - Set the fillStyle to '#0095DD' (or another color of your choice)
     ctx.fillStyle = '#0095dd';
     // - Use fillRect to draw the paddle at (x, y) with the correct width and height
-    ctx.fillRect(0, 0, this.width, this.height);
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   moveLeft() {

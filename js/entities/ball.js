@@ -36,7 +36,7 @@ export class Ball {
       this.dy = -this.dy
     };
     //    - If ball goes below bottom edge, call game.ballLost()
-    if (this.y < 0) {
+    if (this.y - this.size > this.game.height) {
       this.game.ballLost();
     }
   }
@@ -46,7 +46,7 @@ export class Ball {
     // - Use beginPath(), arc(), fillStyle, and fill() to draw a circle
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillstyle = '#0095DD';
+    ctx.fillStyle = '#0095DD';
     ctx.fill();
   }
 
@@ -54,17 +54,19 @@ export class Ball {
     // TODO: Check if the ball collides with a rectangular object (brick or paddle)
     // - Return true if the ball's bounding box overlaps with the object's rectangle
     // - Remember to account for the ball's radius in the calculation
-    this.x + this.size > object.x &&
+    return (
+      this.x + this.size > object.x &&
       this.x - this.size < object.x + object.width &&
       this.y + this.size > object.y &&
       this.y - this.size < object.y + object.height
+    )
   }
 
   reset() {
     // TODO: Reset the ball position after losing a life
     // - Set position back to initial values
-    this.x = game.width / 2;
-    this.y = game.height - 30;
+    this.x = this.game.width / 2;
+    this.y = this.game.height - 30;
     // - Reset direction to initial values
     this.dx = this.speed
     this.dy = -this.speed
