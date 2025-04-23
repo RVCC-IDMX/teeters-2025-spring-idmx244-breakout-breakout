@@ -27,8 +27,8 @@ export class Brick {
       // - Use fillRect to draw the brick
       ctx.fillRect(this.x, this.y, this.width, this.height);
       // - Add a border by using strokeStyle and strokeRect
-      ctx.strokeStyle = "#000";
-      ctx.lineWidth = 1
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 1;
       ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }

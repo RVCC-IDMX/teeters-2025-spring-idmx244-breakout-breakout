@@ -16,8 +16,8 @@ export class Ball {
     // - Set the ball speed using DEFAULTS.BALL_SPEED
     this.speed = DEFAULTS.BALL_SPEED;
     // - Set initial direction: dx to a positive value and dy to a negative value
-    this.dx = this.speed
-    this.dy = -this.speed
+    this.dx = this.speed;
+    this.dy = -this.speed;
     //   (This will make the ball move up and to the right initially)
   }
 
@@ -33,7 +33,7 @@ export class Ball {
     };
     //    - If ball hits top wall, reverse dy
     if (this.y - this.size < 0) {
-      this.dy = -this.dy
+      this.dy = -this.dy;
     };
     //    - If ball goes below bottom edge, call game.ballLost()
     if (this.y - this.size > this.game.height) {
@@ -59,7 +59,7 @@ export class Ball {
       this.x - this.size < object.x + object.width &&
       this.y + this.size > object.y &&
       this.y - this.size < object.y + object.height
-    )
+    );
   }
 
   reset() {
@@ -68,7 +68,7 @@ export class Ball {
     this.x = this.game.width / 2;
     this.y = this.game.height - 30;
     // - Reset direction to initial values
-    this.dx = this.speed
-    this.dy = -this.speed
+    this.dx = this.speed;
+    this.dy = -this.speed;
   }
 }

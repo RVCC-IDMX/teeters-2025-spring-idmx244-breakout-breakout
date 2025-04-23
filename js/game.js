@@ -23,9 +23,9 @@ export class Game {
     // - score: set to 0
     this.score = 0;
     // - lives: set to DEFAULTS.LIVES
-    this.lives = DEFAULTS.LIVES
+    this.lives = DEFAULTS.LIVES;
     // - debugMessage: empty string for debug output
-    this.debugMessage = "";
+    this.debugMessage = '';
 
     // TODO: Initialize empty arrays/objects for game entities
     // - paddle: set to null
@@ -111,7 +111,7 @@ export class Game {
   startGame() {
     // TODO: Start the game
     // 1. Set gameState to PLAYING
-    this.gameState = GAME_STATES.PLAYING
+    this.gameState = GAME_STATES.PLAYING;
     // 2. Use ui.showScreen(GAME_STATES.PLAYING) to show the playing screen
     this.ui.showScreen(GAME_STATES.PLAYING);
     // 3. Connect the input handler to the paddle (this.input.setPaddle(this.paddle))
@@ -125,8 +125,8 @@ export class Game {
     // TODO: Restart the game
     // 1. Reset game state (gameState, score, lives)
     this.gameState = GAME_STATES.START;
-    this.score = 0
-    this.lives = DEFAULTS.LIVES
+    this.score = 0;
+    this.lives = DEFAULTS.LIVES;
     // 2. Create new entities (call createEntities())
     this.createEntities();
     // 3. Set up new bricks (call setupBricks())
@@ -145,7 +145,7 @@ export class Game {
   gameLoop() {
     // TODO: Implement the main game loop
     // 1. Check if the game is still in PLAYING state, return if not
-    if (this.gameState != GAME_STATES.PLAYING) {
+    if (this.gameState !== GAME_STATES.PLAYING) {
       return;
     }
     // 2. Clear the canvas (ctx.clearRect)
@@ -154,7 +154,7 @@ export class Game {
     this.paddle.update();
     this.ball.update();
     // 4. Check for collisions (collisionManager.checkCollisions())
-    this.collisionManager.checkCollisions()
+    this.collisionManager.checkCollisions();
     // 5. Draw all game entities (paddle, ball, and all non-broken bricks)
     this.paddle.draw(this.ctx);
     this.ball.draw(this.ctx);
@@ -163,7 +163,7 @@ export class Game {
       if (!brick.broken) {
         brick.draw(this.ctx);
       }
-    })
+    });
 
     // 6. Check for win condition (all bricks broken)
     const remaining = this.bricks.filter(brick => !brick.broken);
@@ -189,7 +189,7 @@ export class Game {
     // 2. Update the UI stats
     this.ui.updateStats();
     // 3. Check if the player is out of lives (call gameOver() if so)
-    if (this.lives == 0) {
+    if (this.lives === 0) {
       this.gameOver();
     } else {
       // 4. If the player still has lives, reset the ball position

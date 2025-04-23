@@ -11,7 +11,7 @@ export class Paddle {
 
     // - Set width and height using DEFAULTS.PADDLE_WIDTH and DEFAULTS.PADDLE_HEIGHT
     this.width = DEFAULTS.PADDLE_WIDTH;
-    this.height = DEFAULTS.PADDLE_HEIGHT
+    this.height = DEFAULTS.PADDLE_HEIGHT;
 
     // - Set initial x position to center the paddle horizontally
     this.x = (game.width - this.width) / 2;
